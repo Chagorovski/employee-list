@@ -99,7 +99,7 @@ function addSearchBar () {
    for (let i = 0; i < students.length; i++) {
       const listItemName = students[i].querySelector('h3').textContent;
       students[i].style.display = 'none';
-      if (filter.length !==0 && listItemName.toLowerCase().includes(filter)) {
+      if (listItemName.toLowerCase().includes(filter)) {
          students[i].style.display = '';
          arr.push(students[i]);
       }
