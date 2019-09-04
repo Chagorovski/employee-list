@@ -25,9 +25,6 @@ const showPage = (list,page) => {
    }
 };
 
-showPage(ulListChildren,1);
-
-
 // Function to generate, append, and add functionality to the pagination buttons.
 
 const appendPageLinks = (list) => {
@@ -38,6 +35,7 @@ const appendPageLinks = (list) => {
    const ul = document.createElement('ul');
    const li = ul.children;
    paginationDiv.appendChild(ul);
+
    for (let i = 0; i < list.length / itemsPerPage; i ++) {
       const li = document.createElement('li');
       const a = document.createElement('a');
@@ -50,6 +48,7 @@ const appendPageLinks = (list) => {
       a.textContent = i + 1;
       aNumText = a.textContent; 
    } 
+
    ul.addEventListener('click', (e) => {
       const pageNumber = e.target.textContent;
       for (let i = 0; i < ul.children.length; i++) {
@@ -58,7 +57,7 @@ const appendPageLinks = (list) => {
             a.className = null;
          }      
       }
-      showPage(ulListChildren,pageNumber);
+      showPage(list,e.target.textContent);
       e.target.className = 'active';
    }); 
 };
@@ -102,8 +101,9 @@ function addSearchBar () {
       if (listItemName.toLowerCase().includes(filter)) {
          students[i].style.display = '';
          arr.push(students[i]);
-      }
+      }  
    }
+   noSearchResultMsg(arr);
    pageRestart(arr);
 };
 
@@ -117,5 +117,23 @@ function pageRestart (arr) {
    appendPageLinks(arr);
 }
 
+// Function for printing the not existing msg if there is no match for user's search
+// NOT WORKING
+
+function noSearchResultMsg (search) {
+   const span = document.createElement('span');
+   const ul = document.querySelector('.student-list');
+   const li = ul.firstElementChild;
+   span.innerHTML = 'Your search is not existing. Please try again !'
+   ul.insertBefore(span,li);
+   const searchInputClass = document.getElementsByClassName('student-search')[0];
+   const seaarchInputValue = searchInputClass.value;
+      if (seaarchInputValue !== ulListChildren) {
+         return span;
+      }
+    ul.removeChild(span);   
+};
+
+showPage(ulListChildren,1);
 appendPageLinks(ulListChildren);
 addSearchBar();
