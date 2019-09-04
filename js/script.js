@@ -126,12 +126,11 @@ function noSearchResultMsg (search) {
    const li = ul.firstElementChild;
    span.innerHTML = 'Your search is not existing. Please try again !'
    ul.insertBefore(span,li);
-   const searchInputClass = document.getElementsByClassName('student-search')[0];
+   const searchInputClass = document.getElementsByClassName('student-search');
    const seaarchInputValue = searchInputClass.value;
-      if (seaarchInputValue !== ulListChildren) {
+      if (seaarchInputValue !== search) {
          return span;
-      }
-    ul.removeChild(span);   
+      }   
 };
 
 showPage(ulListChildren,1);
