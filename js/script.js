@@ -8,14 +8,14 @@ FSJS project 2 - List Filter and Pagination
 
 // Global variables for this project
 
-const ulListChildredn = document.querySelector('.student-list').children;
+const ulListChildren = document.querySelector('.student-list').children;
 const itemsPerPage = 10;
 
 // Function to show 10 items per page 
 
 const showPage = (list,page) => {
-   const startIndex = (page * 10) - 10;
-   const endIndex = (page * 10) - 1;
+   const startIndex = (page * itemsPerPage) - itemsPerPage;
+   const endIndex = (page * itemsPerPage) - 1;
    for (let i = 0; i < list.length; i ++){
       if (i >= startIndex && i <= endIndex ) {
          list[i].style.display = 'block'
@@ -25,7 +25,7 @@ const showPage = (list,page) => {
    }
 };
 
-showPage(ulListChildredn,1);
+showPage(ulListChildren,1);
 
 
 // Function to generate, append, and add functionality to the pagination buttons.
@@ -58,12 +58,10 @@ const appendPageLinks = (list) => {
             a.className = null;
          }      
       }
-      showPage(ulListChildredn,pageNumber);
+      showPage(ulListChildren,pageNumber);
       e.target.className = 'active';
    }); 
 };
-
-appendPageLinks(ulListChildredn);
 
 // Function to add the search bar with submit button and the event listeners for them
 
@@ -80,21 +78,24 @@ function addSearchBar () {
    pageHeader.appendChild(searchHeaderDiv);
    searchHeaderDiv.appendChild(search);
    searchHeaderDiv.appendChild(button);
-
-   button.addEventListener ('click' , () => {
+ 
+   button.addEventListener ('click' , (event) => {
       event.preventDefault();
-      makeSearch(search,ulListChildredn);
+      makeSearch(search,ulListChildren);
    });
    search.addEventListener('keyup', () => {
-      makeSearch(search,ulListChildredn);
+      makeSearch(search,ulListChildren);
    });
  };
 
-// Function for showing the search results using includes() method
+// Function for compairing the search results from the user and the list
 
-function makeSearch(search,students) {
+ function makeSearch(search,students) {
    const filter = search.value.toLowerCase();
    const arr = [];
+   if (!search.value){
+      return pageRestart(ulListChildren);
+   }
    for (let i = 0; i < students.length; i++) {
       const listItemName = students[i].querySelector('h3').textContent;
       students[i].style.display = 'none';
@@ -103,7 +104,18 @@ function makeSearch(search,students) {
          arr.push(students[i]);
       }
    }
+   pageRestart(arr);
 };
 
+// Function for correcting the pageLinks and showing list items according to the arr passed in
 
+function pageRestart (arr) {
+   const page = document.querySelector('.page');
+   const pageLinks = document.querySelector("div.pagination");
+   page.removeChild(pageLinks);
+   showPage(arr, 1);
+   appendPageLinks(arr);
+}
+
+appendPageLinks(ulListChildren);
 addSearchBar();
