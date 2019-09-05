@@ -7,9 +7,13 @@ FSJS project 2 - List Filter and Pagination
 
 
 // Global variables for this project
-
+const mainDiv = document.querySelector('.page');
 const ulListChildren = document.querySelector('.student-list').children;
 const itemsPerPage = 10;
+
+// Creating the not existing span and adding text with innerHTML
+const noResultDiv = document.createElement('div');
+mainDiv.appendChild(noResultDiv);
 
 // Function to show 10 items per page 
 
@@ -28,7 +32,6 @@ const showPage = (list,page) => {
 // Function to generate, append, and add functionality to the pagination buttons.
 
 const appendPageLinks = (list) => {
-   const mainDiv = document.querySelector('.page');
    const paginationDiv = document.createElement('div');
    paginationDiv.className = 'pagination';
    mainDiv.appendChild(paginationDiv);
@@ -49,8 +52,7 @@ const appendPageLinks = (list) => {
       aNumText = a.textContent; 
    } 
 
-   ul.addEventListener('click', (e) => {
-      const pageNumber = e.target.textContent;
+   ul.addEventListener('click', (e) => {  
       for (let i = 0; i < ul.children.length; i++) {
          const a = li[i].firstElementChild;  
          if (a.className = true) {
@@ -89,10 +91,11 @@ function addSearchBar () {
 
 // Function for compairing the search results from the user and the list
 
- function makeSearch(search,students) {
+function makeSearch(search,students) {
+   noResultDiv.innerHTML = ''; 
    const filter = search.value.toLowerCase();
-   const arr = [];
-   if (!search.value){
+   const arr = []; 
+   if (!search.value){  
       return pageRestart(ulListChildren);
    }
    for (let i = 0; i < students.length; i++) {
@@ -103,7 +106,10 @@ function addSearchBar () {
          arr.push(students[i]);
       }  
    }
-   noSearchResultMsg(arr);
+   if(arr.length === 0){
+      noResultDiv.innerHTML = 'Your search is not existing. Please try again !'
+      mainDiv.appendChild(noResultDiv);
+   };
    pageRestart(arr);
 };
 
@@ -116,22 +122,6 @@ function pageRestart (arr) {
    showPage(arr, 1);
    appendPageLinks(arr);
 }
-
-// Function for printing the not existing msg if there is no match for user's search
-// NOT WORKING
-
-function noSearchResultMsg (search) {
-   const span = document.createElement('span');
-   const ul = document.querySelector('.student-list');
-   const li = ul.firstElementChild;
-   span.innerHTML = 'Your search is not existing. Please try again !'
-   ul.insertBefore(span,li);
-   const searchInputClass = document.getElementsByClassName('student-search');
-   const seaarchInputValue = searchInputClass.value;
-      if (seaarchInputValue !== search) {
-         return span;
-      }   
-};
 
 showPage(ulListChildren,1);
 appendPageLinks(ulListChildren);
