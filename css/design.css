@@ -43,8 +43,6 @@ body{
       color: #fff
     }
 
-.student-list{}
-
   .student-item{
     margin: 0 0 20px 0;
     padding: 0 0 20px 0;
@@ -99,7 +97,7 @@ body{
   margin: 40px 0 0 0;
   text-align: center;
 }
- 
+
   .pagination li{
     display: inline;
   }

@@ -3,6 +3,9 @@
 ******************************************/
 const ul = document.getElementById('student-list');
 const url = 'https://randomuser.me/api/?results=50';
+const mainDiv = document.querySelector('.page');
+const ulListChildren = document.querySelector('#student-list').children;
+const itemsPerPage = 10;
 
 // Helpers
 function createNode(element) {
@@ -53,11 +56,6 @@ fetch(url)
 .catch(function(error) {
   console.log(error);
 });
-
-// Global variables for this project
-const mainDiv = document.querySelector('.page');
-const ulListChildren = document.querySelector('#student-list').children;
-const itemsPerPage = 10;
 
 // Creating the not existing span and adding text with innerHTML
 const noResultDiv = document.createElement('div');
